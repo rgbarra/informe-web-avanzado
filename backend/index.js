@@ -1,53 +1,51 @@
 const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const helmet = require('helmet');
+const axios = require('axios');
+require('dotenv').config();
 
-// 1. CARGAR VARIABLES DE ENTORNO
-// Importante: Esto debe ir antes de cualquier otra lógica que use process.env
-dotenv.config();
-
-// 2. IMPORTAR CONFIGURACIONES Y RUTAS
-const connectDB = require('./config/db');
-const weatherRoutes = require('./routes/weatherRoutes');
-
-// 3. INICIALIZAR LA APLICACIÓN
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// 4. CONECTAR A LA BASE DE DATOS (MongoDB Atlas)
-connectDB();
+// Middleware para procesar JSON
+app.use(express.json());
 
-// 5. MIDDLEWARES DE SEGURIDAD Y USABILIDAD (Punto 1 del trabajo)
-app.use(helmet()); // Protege contra vulnerabilidades HTTP conocidas
-app.use(cors());   // Permite que tu Frontend (React) se comunique con este Backend
-app.use(express.json()); // Permite que el servidor procese datos en formato JSON
+// RUTA PRINCIPAL: Aquí ocurre la magia de la API de Terceros (Punto 4 del informe)
+app.get('/clima/:ciudad', async (req, res) => {
+    const ciudad = req.params.ciudad;
+    const apiKey = process.env.OPENWEATHER_API_KEY;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&units=metric&lang=es`;
 
-// 6. DEFINICIÓN DE RUTAS (Punto 2 y 4 del trabajo)
+    console.log(`📡 Consultando clima para: ${ciudad}...`);
 
-// Ruta de salud del sistema (Health Check)
-app.get('/api/v1/health', (req, res) => {
-    res.status(200).json({
-        status: 'success',
-        message: 'Servidor MERN operativo y seguro',
-        timestamp: new Date().toISOString()
-    });
+    try {
+        // Consumo de la API externa usando Axios
+        const response = await axios.get(url);
+        const datos = response.data;
+
+        // Enviamos la respuesta dinámica al cliente
+        res.json({
+            estado: "Éxito",
+            data: {
+                ciudad: datos.name,
+                pais: datos.sys.country,
+                temperatura: `${datos.main.temp}°C`,
+                sensacion: `${datos.main.feels_like}°C`,
+                humedad: `${datos.main.humidity}%`,
+                condicion: datos.weather[0].description
+            }
+        });
+    } catch (error) {
+        console.error("❌ Error en la API externa:", error.message);
+        res.status(500).json({
+            estado: "Error",
+            mensaje: "No se pudo obtener el clima. Revisa que el nombre de la ciudad o la API Key sean correctos."
+        });
+    }
 });
 
-// Rutas de la API de Clima (Integración de Terceros)
-app.use('/api/v1/weather', weatherRoutes);
-
-// 7. MANEJO DE ERRORES GLOBAL (Para el Punto 3: Mejoras Continuas)
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({
-        status: 'error',
-        message: 'Ocurrió un error interno en el servidor'
-    });
-});
-
-// 8. LANZAMIENTO DEL SERVIDOR
-const PORT = process.env.PORT || 5000;
+// Inicio del servidor
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor Senior corriendo en puerto ${PORT}`);
-    console.log(`🌍 Entorno: ${process.env.NODE_ENV || 'development'}`);
+    console.log("==============================================");
+    console.log(`✅ SERVIDOR WEB AVANZADO INICIADO`);
+    console.log(`🌐 Acceso local: http://localhost:${PORT}/clima/Guayaquil`);
+    console.log("==============================================");
 });
