@@ -1,32 +1,28 @@
-# 🛡️ Network & Weather Guardian - Informe Web Avanzado
+# 🛡️ Weather Guardian - Integración de APIs de Terceros
 
-Este proyecto forma parte del informe técnico sobre **Desarrollo de Aplicaciones Web Avanzadas**. Consiste en una plataforma de monitoreo dinámico que integra servicios de bases de datos NoSQL y consumo de APIs de terceros bajo una arquitectura profesional **MERN**.
+Este proyecto práctico constituye el núcleo técnico del informe sobre **Desarrollo de Aplicaciones Web Avanzadas**. La aplicación demuestra la implementación de un servidor robusto utilizando el framework **Express**, enfocado en la interoperabilidad de sistemas mediante el consumo de servicios externos.
 
 ## 🚀 Características Principales
 
-- **Arquitectura MVC:** Separación clara de responsabilidades en el servidor.
-- **Seguridad Avanzada:** Implementación de encabezados de seguridad con `Helmet`, gestión de `CORS` y protección de credenciales mediante variables de entorno.
-- **Persistencia de Datos:** Conexión robusta a **MongoDB Atlas** mediante el ODM **Mongoose**.
-- **Integración de APIs:** Consumo en tiempo real de la API de **OpenWeatherMap** para datos climáticos globales.
-- **Control de Versiones:** Estructura de **Monorepo** gestionada con Git y documentada bajo estándares de *Conventional Commits*.
+- **Arquitectura Basada en Frameworks:** Implementación de un servidor asíncrono con **Node.js** y **Express.js**, cumpliendo con los estándares de usabilidad y escalabilidad.
+- **Integración de APIs de Terceros:** Consumo dinámico de datos meteorológicos globales a través de la API de **OpenWeatherMap** (Punto 4 de la actividad).
+- **Seguridad en Capa de Desarrollo:** Gestión de credenciales críticas (API Keys) mediante variables de entorno para prevenir la exposición de datos sensibles.
+- **Consumo Eficiente de Datos:** Uso de la biblioteca **Axios** para la gestión de promesas y comunicación HTTP optimizada.
+- **Control de Versiones:** Repositorio estructurado bajo estándares de limpieza de código y mantenimiento continuo.
 
 ## 🛠️ Stack Tecnológico
 
-- **Backend:** Node.js, Express.js
-- **Base de Datos:** MongoDB (NoSQL)
-- **Seguridad:** Helmet, Dotenv, CORS
-- **Cliente HTTP:** Axios
-- **Frontend:** React.js (Estructura inicial configurada)
+- **Framework de Servidor:** Node.js / Express.js
+- **Gestión de APIs:** Axios (HTTP Client)
+- **Seguridad:** Dotenv (Environment Variables)
+- **Entorno de Ejecución:** V8 Engine
 
-## 📁 Estructura del Proyecto
+## 📁 Estructura del Proyecto (Refactorizada)
 
 ```text
-informe-web-avanzado/
-├── backend/            # Lógica del servidor (Node/Express)
-│   ├── config/         # Configuración de base de datos
-│   ├── controllers/    # Lógica de negocio
-│   ├── models/         # Esquemas de datos (Mongoose)
-│   ├── routes/         # Definición de endpoints
-│   └── index.js        # Punto de entrada del servidor
-├── frontend/           # Interfaz de usuario (React)
-└── README.md           # Documentación del proyecto
+backend/
+├── .env                # Configuración de variables sensibles
+├── .gitignore          # Definición de archivos excluidos de Git
+├── index.js            # Lógica central del servidor y endpoints
+├── package.json        # Gestión de manifiesto y dependencias
+└── README.md           # Documentación técnica del proyecto
