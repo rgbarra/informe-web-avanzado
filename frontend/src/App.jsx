@@ -16,7 +16,7 @@ function App() {
             const data = await getWeatherData(city);
             setWeather(data);
         } catch (err) {
-            setError("No se pudo encontrar la ciudad");
+            setError("Ciudad no encontrada en el sistema");
             setWeather(null);
         } finally {
             setLoading(false);
@@ -30,10 +30,12 @@ function App() {
                 <p>Proyecto Universitario - Raúl Barra</p>
             </header>
             
+            {/* Usamos el componente especializado */}
             <WeatherSearch onSearch={handleSearch} isLoading={loading} />
 
-            {error && <p className="error-msg">{error}</p>}
+            {error && <p style={{color: '#f87171', marginBottom: '20px'}}>{error}</p>}
             
+            {/* Usamos la tarjeta especializada */}
             <WeatherCard weather={weather} />
         </div>
     );

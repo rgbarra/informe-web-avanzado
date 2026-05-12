@@ -8,13 +8,13 @@ const WeatherSearch = ({ onSearch, isLoading }) => {
         e.preventDefault();
         if (city.trim()) {
             onSearch(city);
-            setCity(''); // Limpia el input después de buscar
         }
     };
 
     return (
         <form onSubmit={handleSubmit} className="search-form">
             <input 
+                className="search-input" // Tu clase de App.css
                 type="text" 
                 list="cities"
                 value={city}
@@ -25,7 +25,7 @@ const WeatherSearch = ({ onSearch, isLoading }) => {
             <datalist id="cities">
                 {suggestions.map((s, i) => <option key={i} value={s} />)}
             </datalist>
-            <button type="submit" disabled={isLoading}>
+            <button className="search-btn" type="submit" disabled={isLoading}>
                 {isLoading ? '...' : 'Buscar'}
             </button>
         </form>
