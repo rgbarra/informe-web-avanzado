@@ -1,18 +1,29 @@
 import axios from 'axios';
 
-// Detecta si estamos en Netlify o Localhost
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1/weather';
+/**
+ * IMPORTANTE: VITE_API_URL debe configurarse en el panel de Netlify.
+ * En desarrollo usará el .env local, en producción la variable de Netlify.
+ */
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const getWeatherData = async (city) => {
     try {
-        console.log(`Conectando a: ${API_URL}`); // Para debugging en consola
+        // Validación de seguridad para el desarrollador
+        if (!API_URL) {
+            console.error("ERROR: La variable VITE_API_URL no está definida en el entorno.");
+            throw new Error("Error de configuración en el servidor.");
+        }
+
+        console.log(`Petición enviada a: ${API_URL}`); 
+        
         const response = await axios.get(API_URL, { 
             params: { city } 
         });
+        
         return response.data;
     } catch (error) {
-        // Log detallado para identificar si es CORS o Network Error
-        console.error("Detalle del error en el servicio:", error.response || error.message);
+        // Log profesional para identificar si es CORS o un error 404/500
+        console.error("Detalle del error en la petición:", error.response?.data || error.message);
         throw error;
     }
 };
