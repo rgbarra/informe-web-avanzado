@@ -1,16 +1,17 @@
 import axios from 'axios';
 
-// Esta URL debe coincidir con la que te funcionó en el navegador
+// Definimos la URL base de tu backend
 const API_URL = 'http://localhost:5000/api/v1/weather';
 
 export const getWeatherData = async (city) => {
     try {
+        // La petición enviará: http://localhost:5000/api/v1/weather?city=Santiago
         const response = await axios.get(API_URL, { 
-            params: { city } 
+            params: { city: city } 
         });
-        return response.data; // Aquí llega el JSON que viste en el navegador
+        return response.data;
     } catch (error) {
-        console.error("Error en Axios:", error.response?.data || error.message);
+        console.error("Error en el servicio de clima:", error);
         throw error;
     }
 };
