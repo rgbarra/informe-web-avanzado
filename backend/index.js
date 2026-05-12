@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 require('dotenv').config();
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // SOLO PARA DESARROLLO: Salto de seguridad SSL por bloqueo de red local.
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -8,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware para procesar JSON
 app.use(express.json());
 
-// RUTA PRINCIPAL: Aquí ocurre la magia de la API de Terceros (Punto 4 del informe)
+// RUTAS
 app.get('/clima/:ciudad', async (req, res) => {
     const ciudad = req.params.ciudad;
     const apiKey = process.env.OPENWEATHER_API_KEY;
