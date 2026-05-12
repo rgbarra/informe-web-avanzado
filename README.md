@@ -1,28 +1,41 @@
-# 🛡️ Weather Guardian - Integración de APIs de Terceros
+# 🛡️ Weather Guardian - Proyecto Full Stack MERN
 
-Este proyecto práctico constituye el núcleo técnico del informe sobre **Desarrollo de Aplicaciones Web Avanzadas**. La aplicación demuestra la implementación de un servidor robusto utilizando el framework **Express**, enfocado en la interoperabilidad de sistemas mediante el consumo de servicios externos.
+Este proyecto es la implementación práctica del informe para la asignatura de **Desarrollo de Aplicaciones Web Avanzadas**. La aplicación es una solución Full Stack que integra un servidor robusto en Node.js con una interfaz reactiva en React, enfocada en la interoperabilidad de sistemas y consumo de APIs de terceros.
 
 ## 🚀 Características Principales
 
-- **Arquitectura Basada en Frameworks:** Implementación de un servidor asíncrono con **Node.js** y **Express.js**, cumpliendo con los estándares de usabilidad y escalabilidad.
-- **Integración de APIs de Terceros:** Consumo dinámico de datos meteorológicos globales a través de la API de **OpenWeatherMap** (Punto 4 de la actividad).
-- **Seguridad en Capa de Desarrollo:** Gestión de credenciales críticas (API Keys) mediante variables de entorno para prevenir la exposición de datos sensibles.
-- **Consumo Eficiente de Datos:** Uso de la biblioteca **Axios** para la gestión de promesas y comunicación HTTP optimizada.
-- **Control de Versiones:** Repositorio estructurado bajo estándares de limpieza de código y mantenimiento continuo.
+- **Arquitectura desacoplada (CORS):** Comunicación fluida entre un Frontend en React (Vite) y un Backend en Express.js.
+- **Consumo de APIs de Terceros:** Integración dinámica con **OpenWeatherMap** para datos meteorológicos en tiempo real.
+- **Experiencia de Usuario (UX) Avanzada:** 
+  - Autodetector de ubicación mediante **Geolocation API** del navegador.
+  - Sistema de autocompletado de ciudades (Datalist).
+  - Diseño responsivo pulido con **Flexbox CSS**.
+- **Seguridad:** Gestión de credenciales críticas mediante variables de entorno (`.env`) y protección de rutas.
 
 ## 🛠️ Stack Tecnológico
 
-- **Framework de Servidor:** Node.js / Express.js
-- **Gestión de APIs:** Axios (HTTP Client)
-- **Seguridad:** Dotenv (Environment Variables)
-- **Entorno de Ejecución:** V8 Engine
+### **Frontend**
+- **React 18 + Vite:** Biblioteca para interfaces de usuario y entorno de desarrollo ultra rápido.
+- **Axios:** Gestión de peticiones HTTP.
+- **CSS3 (Flexbox):** Maquetación moderna y adaptable.
 
-## 📁 Estructura del Proyecto (Refactorizada)
+### **Backend**
+- **Node.js & Express.js:** Entorno de ejecución y framework para la API REST.
+- **Dotenv:** Seguridad en la configuración de entorno.
+
+---
+
+## 📁 Estructura del Repositorio
 
 ```text
-backend/
-├── .env                # Configuración de variables sensibles
-├── .gitignore          # Definición de archivos excluidos de Git
-├── index.js            # Lógica central del servidor y endpoints
-├── package.json        # Gestión de manifiesto y dependencias
-└── README.md           # Documentación técnica del proyecto
+informe-web-avanzado/
+├── backend/                # API REST (Node/Express)
+│   ├── .env                # API Keys (No incluido en Git)
+│   ├── index.js            # Servidor y Endpoints
+│   └── package.json
+├── frontend/               # Cliente (React/Vite)
+│   ├── src/
+│   │   ├── components/     # WeatherSearch y WeatherCard
+│   │   └── services/       # Lógica de consumo de API
+│   └── package.json
+└── README.md
