@@ -1,6 +1,6 @@
 const axios = require('axios');
+const https = require('https'); // Importamos el módulo nativo
 
-// Lógica para obtener el clima
 const getClima = async (req, res) => {
     try {
         const { city } = req.query;
@@ -9,23 +9,27 @@ const getClima = async (req, res) => {
             return res.status(400).json({ error: "Debe proporcionar una ciudad" });
         }
 
-        // Llamada a la API externa
+        // Creamos un agente que ignore problemas de certificados locales
+        const agent = new https.Agent({  
+            rejectUnauthorized: false 
+        });
+
         const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather`, {
             params: {
                 q: city,
                 appid: process.env.OPENWEATHER_API_KEY,
                 units: 'metric',
                 lang: 'es'
-            }
+            },
+            httpsAgent: agent // Le pasamos el agente a Axios
         });
 
         res.json(response.data);
 
     } catch (error) {
-        console.error("Error en el controlador:", error.message);
+        console.error("DETALLE TÉCNICO:", error.message);
         const status = error.response ? error.response.status : 500;
-        const message = error.response ? "Ciudad no encontrada" : "Error interno del servidor";
-        res.status(status).json({ error: message });
+        res.status(status).json({ error: "Error de conexión con la API de clima" });
     }
 };
 

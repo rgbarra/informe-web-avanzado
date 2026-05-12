@@ -1,18 +1,16 @@
 import axios from 'axios';
 
-const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL, // Ahora apunta a /api/v1
-});
+// Esta URL debe coincidir con la que te funcionó en el navegador
+const API_URL = 'http://localhost:5000/api/v1/weather';
 
-export const getWeatherByCity = async (city) => {
+export const getWeatherData = async (city) => {
     try {
-        // Realiza la petición a: /api/v1/weather?city=Santiago
-        const response = await api.get('/weather', {
-            params: { city } // Axios construye automáticamente el ?city=...
+        const response = await axios.get(API_URL, { 
+            params: { city } 
         });
-        return response.data;
+        return response.data; // Aquí llega el JSON que viste en el navegador
     } catch (error) {
-        console.error("Error en weatherService:", error.message);
+        console.error("Error en Axios:", error.response?.data || error.message);
         throw error;
     }
 };
