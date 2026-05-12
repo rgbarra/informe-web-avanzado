@@ -1,52 +1,27 @@
 const express = require('express');
-const axios = require('axios');
+const cors = require('cors');
 require('dotenv').config();
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // SOLO PARA DESARROLLO: Salto de seguridad SSL por bloqueo de red local.
+
+// Importamos nuestras rutas modulares
+const weatherRoutes = require('./routes/weatherRoutes');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Middleware para procesar JSON
+// Middlewares globales
+app.use(cors());
 app.use(express.json());
 
-// RUTAS
-app.get('/clima/:ciudad', async (req, res) => {
-    const ciudad = req.params.ciudad;
-    const apiKey = process.env.OPENWEATHER_API_KEY;
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&units=metric&lang=es`;
+// Bypass SSL para desarrollo (lo mantenemos según tu versión anterior)
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-    console.log(`📡 Consultando clima para: ${ciudad}...`);
+// DEFINICIÓN DE RUTAS (Prefijo estándar /api/v1)
+app.use('/api/v1/weather', weatherRoutes);
 
-    try {
-        // Consumo de la API externa usando Axios
-        const response = await axios.get(url);
-        const datos = response.data;
+const PORT = process.env.PORT || 5000;
 
-        // Enviamos la respuesta dinámica al cliente
-        res.json({
-            estado: "Éxito",
-            data: {
-                ciudad: datos.name,
-                pais: datos.sys.country,
-                temperatura: `${datos.main.temp}°C`,
-                sensacion: `${datos.main.feels_like}°C`,
-                humedad: `${datos.main.humidity}%`,
-                condicion: datos.weather[0].description
-            }
-        });
-    } catch (error) {
-        console.error("❌ Error en la API externa:", error.message);
-        res.status(500).json({
-            estado: "Error",
-            mensaje: "No se pudo obtener el clima. Revisa que el nombre de la ciudad o la API Key sean correctos."
-        });
-    }
-});
-
-// Inicio del servidor
 app.listen(PORT, () => {
     console.log("==============================================");
-    console.log(`✅ SERVIDOR WEB AVANZADO INICIADO`);
-    console.log(`🌐 Acceso local: http://localhost:${PORT}/clima/Guayaquil`);
+    console.log("✅ BACKEND MERN MODULAR INICIADO");
+    console.log(`🌐 Endpoint: http://localhost:${PORT}/api/v1/weather`);
     console.log("==============================================");
 });
