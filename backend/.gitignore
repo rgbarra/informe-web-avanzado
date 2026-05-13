@@ -1,4 +1,4 @@
-# Dependencias (nunca se suben al commit)
+# Dependencias
 node_modules/
 
 # Variables de entorno (contiene tu API KEY privada, no se sube)
