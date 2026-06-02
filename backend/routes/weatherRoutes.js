@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { getClima } = require('../controllers/weatherController');
+const { getWeatherReport } = require('../controllers/weather.controller');
 
-// Definimos la ruta raíz del recurso
-router.get('/', getClima);
+// GET /api/v1/weather?city={cityName}
+// Replaces the old spanish implementation with an enterprise-ready controller
+router.get('/', getWeatherReport);
 
 module.exports = router;
